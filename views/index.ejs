@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html ng-app="ide">
+<head>
+	<title>
+		ONLINE IDE
+	</title>
+	<% include header.ejs %>
+</head>
+<body>
+
+<div class="container-fluid mycontainer" ng-controller="cide">
+<nav class="navbar navbar-default ">
+  <div class="container-fluid">
+
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      		<a class="navbar-brand" href="#" style="font-size:24px">ONLINE C EDITOR</a>
+    </div>
+
+
+    <ul class="nav navbar-nav navbar-right">
+      <!-- Run button -->
+      <li ng-click="execute(code)" class="nav-item">
+      		<a href="#"><img src="img/glyphicons-174-play.png" height="20px" width="20px">&nbsp RUN
+      		</a>
+      </li>
+      <!-- Reset button -->
+      <li ng-click="reset()">
+      		<a href="#"><img src="img/glyphicons-82-refresh.png" height="20px" width="20px">&nbsp RESET
+      		</a>
+      </li>
+
+      <!-- Login button -->
+      <li ng-click="showLogin()" ng-show="!currentUser">
+      	<a href="#">
+      		<img src="img/glyphicons-4-user.png" height="20px" width="20px">&nbspLOGIN
+      	</a>
+      </li>
+
+      <!-- save the code when logged in -->
+      <li ng-show="currentUser">
+      		<a href="#" ng-click="showSave()">
+      			<img src="img/glyphicons-447-floppy-save.png">&nbsp&nbsp SAVE
+      		</a>
+      </li>
+
+      <!-- if already logged in -->
+      <li ng-show="currentUser">
+		  <a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown">
+		  		<h4>{{currentUser.name}}
+		  		<span class="caret"></span></h4>
+		  </a>
+		  <ul class="dropdown-menu">
+		  	  <li>
+		  	  		<a href="#" ng-click="logout()">Logout
+		  	  		</a>
+		  	  </li>
+		  </ul>
+      </li>
+      
+    </ul>
+  </div><!-- /.container-fluid -->
+</nav>
+
+	<div class="row">
+			<div class="col-md-2">
+				<div class="panel">
+					<div class="panel-heading">
+						<h4>FILES</h4>
+					</div>
+				</div>
+				<!-- to be displayed when not logged in -->
+				<div class="panel" ng-show="!currentUser">
+					<div class="panel-default">
+						<div class="panel-body">
+							TO SAVE FILES LOGIN
+						</div>
+					</div>
+				</div>
+				<!-- displays the list of files when logged in -->
+					<div class="panel" ng-show="currentUser">
+						<ul class="list-group">
+						  <li class="list-group-item" ng-repeat="file in files">
+				<a href="#" ng-click="open_in_window(file.content)" style="text-decoration:none">{{file.name}}</a>&nbsp<a href="#" ng-click="delete_content(file._id,file.name,$index)"><span aria-hidden="true">&times;</span></a>	
+						  </li>
+						</ul>
+					</div>
+				
+			</div>
+			<div class="col-md-5">
+				<form>
+					<!-- INPUT SECTION -->
+					<div class="form-group">
+						
+						<div class="panel">
+							<div class="panel-heading">
+								<h4>INPUT</h4>
+							</div>
+						</div>
+						<textarea class="form-control" rows="18" cols="20" ng-model="code.content" placeholder="ENTER YOUR CODE HERE" ui-codemirror required>
+
+						</textarea>
+						<input type="checkbox" ng-click="show_input_box()"> CUSTOM INPUT<br>
+						<textarea class="form-control" rows="5" id="comment" ng-model="code.data" ng-show="show_input" >
+						</textarea>
+						
+						<br>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-5 ">
+				<!-- show output section-->
+				<div class="panel">
+							<div class="panel-heading">
+								<h4>OUTPUT</h4>
+							</div>
+				</div>
+				<span ng-show="show_loading_gif"><h2 ><img src="img/loading3.gif"> </h2></span>
+				<div class="form-group">
+				  	<h5 ng-show="show_error">ERROR</h5>
+					<textarea class="form-control" rows="25" ng-model="output"  placeholder="OUTPUT" ui-codemirror></textarea>
+				</div>
+			</div>
+	</div>
+		
+	</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+<!-- LOGIN MODAL -->
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+		<script type="text/ng-template" id="modalLogin.html">
+         <div class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2>LOGIN WITH A SOCIAL ACCOUNT</h2>
+              </div>
+              
+              <div class="modal-body">
+              <a href="/login/google">
+                <a class="btn btn-social btn-google"  href="/login/google">
+						    <span class="fa fa-google"></span> Sign in with Google
+				</a>
+				<a class="btn  btn-social btn-facebook	"  href="/login/facebook">
+						    <span class="fa fa-facebook"></span> Sign in with Facebook
+				</a>
+               </a>
+              </div>
+      
+            </div>
+          </div>
+         </div>
+     	</script>
+</body>
+</html>
+
+<!-- file saving modal -->
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+		<script type="text/ng-template" id="modalSave.html">
+         <div class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2>SAVE</h2>
+              </div>
+              
+              <div class="modal-body">
+           
+                	<div class="form-group">
+                		ENTER A FILE NAME : <input type="text" ng-model="codename" class="form-control">
+                	</div>
+              
+              </div>
+              <div class="modal-footer">
+              	<button class="btn btn-danger" ng-click="getname()" data-dismiss="modal" aria-hidden="true">SAVE</button>
+              </div>
+      
+            </div>
+          </div>
+         </div>
+     	</script>
+</body>
+</html>
