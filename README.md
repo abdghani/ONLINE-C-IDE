@@ -1,7 +1,6 @@
-  #  CIDE
-  CIDE is an online editor for c language where we can write code and compile online
-  
-  - Smooth coding experience
+#  CIDE
+CIDE is an online editor for c language where we can write,compile and save code for later use.
+  - Smooth coding experience with proper indentation
   - Save code online for later use
   - Give custom inputs
   
