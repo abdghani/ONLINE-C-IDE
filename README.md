@@ -5,9 +5,9 @@ CIDE is an online editor for c language where we can write,compile and save code
   - Give custom inputs
   
 #### frameworks implemented:
-     EXPRESS-JS for backend
-     ANGULAR-JS for backend
-     PASSPORT-JS for authentication
+     EXPRESS-JS 
+     ANGULAR-JS 
+     PASSPORT-JS 
      
 ### DEMO
 This is an DEMO for  [C-IDE](https://c-ide.herokuapp.com/).
