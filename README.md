@@ -11,6 +11,6 @@
      PASSPORT-JS for authentication
      
 ### DEMO
-This is an link for  [demo](http://cide-makepost.rhcloud.com/).
+This is an DEMO for  [C-IDE](https://c-ide.herokuapp.com/).
 
 
